@@ -1,1 +1,6 @@
-exit 21;
+let myint: int = 10 + 3;
+let myfloat: float = 10.3 / 3;
+let mystr: string = "hello world!";
+let mybool: bool = myint > 10 && true;
+// hello blah blah blah
+print(mystr);
