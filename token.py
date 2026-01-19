@@ -23,14 +23,8 @@ class TokenType(Enum):
     ELSE = auto()
     WHILE = auto()
 
-    INT = auto()
-    FLOAT = auto()
-    STRING = auto()
-    BOOL = auto()
-
     INT_LITERAL = auto()
     FLOAT_LITERAL = auto()
-    STRING_LITERAL = auto()
     BOOL_LITERAL = auto()
 
     IDENTIFIER = auto()
@@ -77,14 +71,6 @@ class Tokenizer:
         match buffer:
             case "let":
                 return Token(TokenType.LET)
-            case "int":
-                return Token(TokenType.INT)
-            case "float":
-                return Token(TokenType.FLOAT)
-            case "string":
-                return Token(TokenType.STRING)
-            case "bool":
-                return Token(TokenType.BOOL)
             case "true":
                 return Token(TokenType.BOOL_LITERAL, "1")
             case "false":
@@ -155,22 +141,22 @@ class Tokenizer:
                 tokens.append(self.integer_or_decimal(joined_buffer))
                 buffer.clear()
 
-            elif c(i) == '\"' or c(i) == "\'": # string starting with " or '
-
-                check = c(i)
-
-                i += 1
-                while i < len(self.source) and c(i) != check:
-                    if c(i):
-                        print(f"char literal {c(i)} at {i}")
-                    buffer.append(c(i))
-                    i += 1
-
-                i += 1
-
-                joined_buffer = "".join(buffer)
-                tokens.append(Token(TokenType.STRING_LITERAL, joined_buffer))
-                buffer.clear()
+            # elif c(i) == '\"' or c(i) == "\'": # string starting with " or '
+            #
+            #     check = c(i)
+            #
+            #     i += 1
+            #     while i < len(self.source) and c(i) != check:
+            #         if c(i):
+            #             print(f"char literal {c(i)} at {i}")
+            #         buffer.append(c(i))
+            #         i += 1
+            #
+            #     i += 1
+            #
+            #     joined_buffer = "".join(buffer)
+            #     tokens.append(Token(TokenType.STRING_LITERAL, joined_buffer))
+            #     buffer.clear()
 
             elif c(i).isspace(): # whitespace is ignored
 
