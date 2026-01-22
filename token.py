@@ -2,6 +2,8 @@ from enum import Enum, auto
 from collections import deque
 
 class TokenType(Enum):
+    EOF = auto()
+
     EXIT = auto()
     PRINT = auto()
 
@@ -224,5 +226,7 @@ class Tokenizer:
                         tokens.append(Token(t))
 
                 i += 1
+
+        tokens.append(Token(TokenType.EOF))
 
         return tokens
