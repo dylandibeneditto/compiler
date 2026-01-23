@@ -1,4 +1,4 @@
-from token import Tokenizer, TokenType
+from tokens import Tokenizer, TokenType
 from parse import Parser
 
 if __name__ == "__main__":
@@ -12,5 +12,8 @@ if __name__ == "__main__":
             if t.type == TokenType.SEMICOLON:
                 print()
         print("]")
+
+        parser = Parser(tokens)
+        print("\n".join([str(i) for i in parser.parse()]))
 
 
