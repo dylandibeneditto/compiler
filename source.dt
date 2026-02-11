@@ -1,3 +1,0 @@
-let x = 4;
-let y = x + 3;
-exit y;
