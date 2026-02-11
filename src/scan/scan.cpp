@@ -2,8 +2,10 @@
 #include <string>
 #include <iostream>
 #include <vector>
-#include "../tokens/token.h"
+#include "../tokens/tokenizer.h"
 #include "./scan.h"
+
+Scan::Scan() : hadError(false) {}; // initialize to false
 
 void Scan::runFile(const std::string& file) {
     // Open the file in binary mode for verbatim reading
@@ -30,17 +32,21 @@ void Scan::runPrompt() {
         std::getline(std::cin, line);
 
         run(line);
+        hadError = false;
     }
 }
 
 void Scan::run(const std::string& source) {
     std::cout<<source<<std::endl;
-    // Tokenizer tokenizer(source);
-    // std::vector<Token> tokens = tokenizer.scanTokens();
-    //
-    // for(Token t : tokens) {
-    //     std::cout<<t<<std::endl;
-    // }
+    if (hadError)
+        exit(65);
+
+    Tokenizer tokenizer(source);
+    std::vector<Token> tokens = tokenizer.scanTokens();
+
+    for(Token t : tokens) {
+        std::cout<<t.str()<<std::endl;
+    }
 }
 
 void Scan::error(const int line, const std::string& message) {
