@@ -19,8 +19,10 @@ public:
     char advance();
     bool match(char target);
     char peek();
+    char peekNext();
 
     void string();
+    void number();
 
     void addToken(TokenType type);
     void addToken(TokenType type, Literal literal);
