@@ -23,6 +23,7 @@ public:
 
   void string();
   void number();
+  void identifier();
 
   void addToken(TokenType type);
   void addToken(TokenType type, Literal literal);

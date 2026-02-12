@@ -1,3 +1,6 @@
+#include <string>
+#include <unordered_map>
+
 enum TokenType {
   // single char
   // parens
@@ -54,3 +57,5 @@ enum TokenType {
 
   END_OF_FILE
 };
+
+extern const std::unordered_map<std::string, TokenType> keywords;

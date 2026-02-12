@@ -96,6 +96,8 @@ void Tokenizer::scanToken() {
   default:
     if (std::isdigit(c)) {
       number();
+    } else if (std::isalpha(c)) {
+      identifier();
     } else {
       Scan::error(line, "Unexpected character: " + std::string(1, c));
     }
@@ -121,6 +123,19 @@ void Tokenizer::number() {
   }
 
   addToken(TokenType::NUMBER, std::stod(source.substr(start, current - start)));
+}
+
+void Tokenizer::identifier() {
+  while (std::isalpha(peek()))
+    advance();
+
+  std::string id = source.substr(start, current - start);
+  try {
+    TokenType type = keywords.at(id);
+    addToken(type, id);
+  } catch (const std::out_of_range &oor) {
+    addToken(TokenType::IDENTIFIER, id);
+  }
 }
 
 void Tokenizer::string() {

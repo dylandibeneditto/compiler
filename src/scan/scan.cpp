@@ -50,7 +50,6 @@ void Scan::run(const std::string &source) {
   }
 }
 
-
 void Scan::error(const int line, const std::string &message) {
   report(line, "", message);
 }
