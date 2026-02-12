@@ -1,3 +1,4 @@
+#include <iostream>
 #include <string>
 #include <vector>
 #include <variant>
@@ -48,6 +49,8 @@ void Tokenizer::scanToken() {
         case '<':
             addToken(match('=') ? TokenType::LESS_EQUAL : TokenType::LESS); break;
 
+        case '"': string(); break;
+
         case ' ':
         case '\r':
         case '\t':
@@ -64,6 +67,24 @@ void Tokenizer::scanToken() {
 char Tokenizer::advance() {
     if(isAtEnd()) return '\0';
     return source.at(current++);
+}
+
+void Tokenizer::string() {
+    while(peek() != '"' && !isAtEnd()) {
+        if (peek() == '\n') line++;
+        advance();
+    }
+
+    if (isAtEnd()) {
+        Scan::error(line, "Unterminated String.");
+        return;
+    }
+
+    advance(); // enclose the final quote
+
+    std::string sub = source.substr(start+1, current-start-2); // excludes quotes
+    std::cout<<sub<<std::endl;
+    addToken(TokenType::STRING, sub);
 }
 
 bool Tokenizer::match(char target) {

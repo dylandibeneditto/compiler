@@ -20,6 +20,8 @@ public:
     bool match(char target);
     char peek();
 
+    void string();
+
     void addToken(TokenType type);
     void addToken(TokenType type, Literal literal);
 
