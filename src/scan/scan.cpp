@@ -54,5 +54,5 @@ void Scan::error(const int line, const std::string& message) {
 }
 
 void Scan::report(const int line, const std::string& where, const std::string& message) {
-    std::cerr << "[line " << line << "] Error " << where << ": " << message;
+    std::cerr << "[line " << line << "] Error " << where << ": " << message << "\n";
 }

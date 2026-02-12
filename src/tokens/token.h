@@ -19,10 +19,8 @@ public:
     std::string str() const {
         std::stringstream ss;
 
-        // Print TokenType as integer (or map to string if you want names)
         ss << static_cast<int>(type) << " " << lexeme << " ";
 
-        // Print the literal safely
         std::visit([&](auto&& value) {
             using T = std::decay_t<decltype(value)>;
             if constexpr (std::is_same_v<T, std::monostate>) {

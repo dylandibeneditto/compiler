@@ -17,6 +17,8 @@ public:
     void scanToken();
 
     char advance();
+    bool match(char target);
+    char peek();
 
     void addToken(TokenType type);
     void addToken(TokenType type, Literal literal);

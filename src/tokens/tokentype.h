@@ -8,9 +8,8 @@ enum TokenType {
     // arithm
     PLUS, MINUS, STAR, SLASH, MOD,
     // other
-    DOT, COMMA, SEMICOLON,
+    DOT, COMMA, SEMICOLON, COLON,
 
-    // two char
     BANG, BANG_EQUAL,
     EQUAL, EQUAL_EQUAL,
     GREATER, GREATER_EQUAL,
