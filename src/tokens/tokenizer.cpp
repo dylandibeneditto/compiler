@@ -132,9 +132,9 @@ void Tokenizer::identifier() {
   std::string id = source.substr(start, current - start);
   try {
     TokenType type = keywords.at(id);
-    addToken(type, id);
+    addToken(type);
   } catch (const std::out_of_range &oor) {
-    addToken(TokenType::IDENTIFIER, id);
+    addToken(TokenType::IDENTIFIER);
   }
 }
 

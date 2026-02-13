@@ -59,3 +59,5 @@ enum TokenType {
 };
 
 extern const std::unordered_map<std::string, TokenType> keywords;
+
+std::ostream &operator<<(std::ostream &os, TokenType type);

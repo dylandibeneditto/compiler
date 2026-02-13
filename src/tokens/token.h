@@ -18,27 +18,5 @@ public:
       : type(type), lexeme(std::move(lexeme)), literal(std::move(literal)),
         line(line) {}
 
-  std::string str() const {
-    std::stringstream ss;
-
-    ss << static_cast<int>(type) << " " << lexeme << " ";
-
-    std::visit(
-        [&](auto &&value) {
-          using T = std::decay_t<decltype(value)>;
-          if constexpr (std::is_same_v<T, std::monostate>) {
-            ss << "nil";
-          } else {
-            ss << value;
-          }
-        },
-        literal);
-
-    ss << " (line " << line << ")";
-    return ss.str();
-  }
+  std::string str();
 };
-
-inline std::ostream &operator<<(std::ostream &os, const Token &token) {
-  return os << token.str();
-}
