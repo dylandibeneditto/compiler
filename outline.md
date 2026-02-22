@@ -85,3 +85,8 @@ unsafe {
 }
 ```
 - nesting is legal but redundant
+
+dont allow inferencing type without being initialized
+```
+x := undefined; // what type? panic
+```
