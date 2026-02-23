@@ -92,7 +92,6 @@ x := undefined; // what type? panic
 ```
 
 super easy string formatting and concatenation
-
 ```
 world := "world";
 print("hello {world}"); // hello world!
