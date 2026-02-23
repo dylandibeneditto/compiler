@@ -17,10 +17,13 @@ break
 continue
 return
 panic
+print
+printline
 
 in
 as
 
+constant
 boolean
 character
 integer
@@ -72,28 +75,91 @@ address
 
 *)
 
-letter ::= ALPHABETICAL CHARACTERS;
++Syntax::Atoms;
+
+letter ::= ? Unicode Letter ?;
 
 digit ::= "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9";
 
-integer ::= [ "-" ], digit, { digit };
-float ::= [ "-" ], digit, { digit }, ".", digit, { digit };
++Syntax::Literals;
 
-string ::= '"', { letter }, '"';
+integer ::= [ "-" ] digit { digit };
+float ::= [ "-" ] digit { digit } "." digit { digit };
+
+string-char ::= ? any-char except " ?
+unformatted-string ::= '"' { string-char } '"';
+formatted-string ::= 'f"' { string-char | "{" identifier "}" } '"';
+string ::= unformatted-string | formatted-string;
 
 boolean ::= "true" | "false";
 
-character ::= "'", letter, "'";
+character ::= "'" ? any-char ? "'";
 
-type ::= 
-    "boolean" | "integer" | "float" | 
-    "character" | "pointer", "<", type, ">", | identifier, [ "<", type, ">" ];
+identifier ::= letter { letter | digit | "_" };
 
-identifier ::= letter, { letter | digit | "_" };
++Syntax::Types;
 
-declaration ::= [ type ], identifier, ":=", expression;
+atomic-integers = kw-i8 | kw-i16 | kw-i32 | kw-i64 | kw-i128 | kw-u8 | kw-u16 | kw-u32 | kw-u64 | kw-u128;
+atomic-floats = kw-f8 | kw-f16 | kw-f32 | kw-f64 | kw-f128;
 
+pointer-type ::= kw-pointer "<" type ">";
 
+defined-type ::= identifier [ "<" type ">" ];
 
-unary_pointer ::= identifier, "address";
+type ::= [ kw-constant ] 
+    ( kw-boolean | kw-integer | kw-float | 
+    kw-character | pointer-type | defined-type |
+    atomic-integers | atomic-floats );
 
+identifier-tuple ::= identifier { "," identifier };
+
++Syntax::Statements;
+
+declaration ::= [ type ] identifier-tuple ":=" expression-list;
+
+assignment ::= identifier-tuple "=" expression-list;
+
+assignment-list ::= assignment { "," assignment };
+
+statement ::= declaration | assignment | for | break | null | return | compound | continue | if | while | panic | print | printline;
+
+statement-list ::= { statement };
+
+(* - STATEMENTS ---------- *)
+
+compound ::= "{" statement-list "}";
+
+null ::= ";";
+
+return ::= kw-return expression ";";
+
+continue ::= kw-continue ";";
+
+break ::= kw-break ";";
+
+if ::= kw-if "(" expression-list ")" compound [ kw-else (if | compound) ];
+
+for ::= kw-for "(" assign-list ";" expression-list ";" expressions-list ")" compound;
+
+while ::= kw-while "(" expression-list ")" compound;
+
+panic ::= kw-panic string ";";
+
+print ::= kw-print string ";";
+printline ::= kw-printline string ";";
+
++Syntax::Expressions;
+
+expression ::= primary | unary | binary | ternary | inplace | synthesized;
+
+expression-list ::= expression { "," expression };
+
+ternary ::= binary '?' binary ':' binary;
+
+inplace ::= long-index-opt ( "+=" | "-=" 
+        | "*="  | "/=" 
+        | "%="  | "<<=" 
+        | ">>=" | "&=" 
+        | "|="  | "^=" ) expression
+
+synthesized ::= "(" assignment-list ")";
